@@ -10,6 +10,7 @@ export default class App extends Component {
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleDownload = this.handleDownload.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
 
   }
 
@@ -29,11 +30,18 @@ export default class App extends Component {
     link.remove()
     window.URL.revokeObjectUrl(url)
   }
+  handleSubmit() {
+    const form = new FormData()
+    form.append("name", this.state.file.name)
+    form.append("type", this.state.file.type)
+    form.append("data", this.state.file)
+  }
 
   render() {
     return (
       <div className='app'>
        <input onChange={this.handleChange} type="file" />
+       <button onClick={this.handleSubmit}>Send</button>
        <button onClick={this.handleDownload}>Download</button>
       </div>
     );
