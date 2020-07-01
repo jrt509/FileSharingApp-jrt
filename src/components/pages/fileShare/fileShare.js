@@ -15,6 +15,7 @@ export default class FileShare  extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleGetData = this.handleGetData.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
 
   }
 
@@ -55,10 +56,15 @@ export default class FileShare  extends Component {
           id={fileData.id} 
           name={fileData.name} 
           type={fileData.file_type}
+          handleDelete={this.handleDelete}
         />
       )
     })
     return fileContainer
+  }
+  handleDelete(id) {
+    const newData = this.state.data.filter(fileData => fileData.id !== id)
+    this.setState({ data: newData })
   }
 
   render() {
