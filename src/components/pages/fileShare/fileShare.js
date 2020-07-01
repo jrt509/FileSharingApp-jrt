@@ -13,7 +13,6 @@ export default class FileShare  extends Component {
       data: []
     }
     this.handleChange = this.handleChange.bind(this);
-    this.handleDownload = this.handleDownload.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleGetData = this.handleGetData.bind(this);
 
@@ -25,16 +24,7 @@ export default class FileShare  extends Component {
       file: event.target.files[0]
     })
   }
-  handleDownload() {
-    const url = window.URL.createObjectURL(this.state.file)
-    const link = document.createElement("a")
-    link.download = this.state.file.name 
-    link.href = url
-    document.body.appendChild(link)
-    link.click()
-    link.remove()
-    window.URL.revokeObjectUrl(url)
-  }
+  
   handleSubmit() {
     const form = new FormData()
     form.append("name", this.state.file.name)
@@ -61,6 +51,7 @@ export default class FileShare  extends Component {
     this.state.data.forEach(fileData => {
       fileContainer.push(
         <SingleFile 
+          key={fileData.id}
           id={fileData.id} 
           name={fileData.name} 
           type={fileData.file_type}
