@@ -70,11 +70,23 @@ export default class FileShare  extends Component {
   render() {
     return (
       <div className='file-share-wrapper'>
+       <div className='left-column'>
        <input onChange={this.handleChange} type="file" />
        <button onClick={this.handleSubmit}>Send</button>
-       <hr/>
+       </div>
+
+       
+       
+       
+
+       <div className='right-column'>
+         <div className='left-column'>
        <button onClick={this.handleGetData}>Get Files</button>
+       </div>
+       <div>
        {this.renderFiles()}
+       </div>
+       </div>
       </div>
     );
   }
