@@ -1,23 +1,27 @@
 import React, { Component } from 'react'
 
-export default class Login extends Component {
-    constructor(props) {
-        super(props)
+export default function login(props) {
+    return (
 
-        this.state = {
-            usernameInput: "",
-            passwordInput: ""
-        }
-    }
+                <form onSubmit={props.handleSubmit}>
+                    <input type="text" 
+                        name="usernameInput" 
+                        placeholder="Username" 
+                        value={props.usernameInput} 
+                        onChange={props.handleChange}
+                    />
 
-    render() {
-        return (
-            <div className='login-wrapper'>
-                <input type="text" placeholder="Username" value={this.state.usernameInput} />
-                <input type="password" placeholder="Password" value={this.state.passwordInput} />
-                <button>Login</button>
-            </div>
-        )
-    }
+                    <input type="password" 
+                        name="passwordInput" 
+                        placeholder="Password" 
+                        value={props.passwordInput}
+                        onChange={props.handleChange} 
+                    />
+
+                    <button>Log In</button>
+
+                </form>
+    )
+                
 }
 
