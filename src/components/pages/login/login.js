@@ -1,6 +1,12 @@
 import React, { Component } from 'react'
 
 export default function login(props) {
+    const errorMessage = {
+        "none": "",
+        "blank field": "Please fill in all fields",
+        "fetch error": "An error occured. Please try again later.",
+        "not verified": "Incorrect username or password."
+}
     return (
 
                 <form onSubmit={props.handleSubmit}>
@@ -19,6 +25,8 @@ export default function login(props) {
                     />
 
                     <button>Log In</button>
+                    <p className="error">{errorMessage[props.errorMessage]}</p>
+                    <p onClick={props.handleClick}>Don't have an account? Click here to sign up!</p>
 
                 </form>
     )

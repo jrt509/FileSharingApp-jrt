@@ -9,7 +9,9 @@ export default class Auth extends Component {
         this.state = {
             authMethod: "login",
             usernameInput: "",
-            passwordInput: ""
+            passwordInput: "",
+            passwordConfirmInput: "",
+            errorMessage: "none"
         }
         this.handleClick = this.handleClick.bind(this)
         this.handleChange = this.handleChange.bind(this)
@@ -17,10 +19,21 @@ export default class Auth extends Component {
         this.handleLogin = this.handleLogin.bind(this)
     }
     handleChange(event) {
-        this.setState({ [event.target.name]: event.target.value})
+        this.setState({ 
+            [event.target.name]: event.target.value,
+            errorMessage: "none"
+        })
     }
     handleSignup(event) {
         event.preventDefault()
+
+        if (this.state.usernameInput === "" || this.state.passwordInput === "" || this.state.passwordConfirmInput === "") {
+            this.setState({ errorMessage: "blank field" })
+        }
+        else if (this.state.passwordInput !== this.state.passwordConfirmInput) {
+            this.setState({ errorMessage: "mismatched passwords" })
+        }
+        else {
 
         fetch("http://127.0.0.1:5000/user/create", {
             method: "POST",
@@ -32,13 +45,30 @@ export default class Auth extends Component {
         })
 
         .then(response => response.json())
-        .then(data => console.log(data))
-        .catch(error => console.log(error))
+        .then(data => {
+            console.log(data)
+
+            if (data === "Username Taken") {
+                this.setState({ errorMessage: "username taken"})
+            }
+            else { 
+                this.setState({ errorMessage: "none"})
+            }
+        })
+        .catch(error => {
+            console.log(error)
+            this.setState({ errorMessage: "fetch error"})
+        })
+        }
     }
     handleLogin(event) {
         event.preventDefault()
-        
-        fetch("http://127.0.0.1:5000/user/verification", {
+
+        if (this.state.usernameInput === "" || this.state.passwordInput === "") {
+            this.setState({ errorMessage: "blank field" })
+        }
+        else {
+            fetch("http://127.0.0.1:5000/user/verification", {
             method: "POST",
             headers: { "content_type": "application/json"},
             body: JSON.stringify({
@@ -47,13 +77,29 @@ export default class Auth extends Component {
             })
         })
         .then(response => response.json())
-        .then(data => console.log(data))
-        .catch(error => console.log(error))
+        .then(data => {
+            console.log(data)
+
+            if (data === "User Not Verified") {
+                this.setState({ errorMessage: "not verified" })
+            }
+            else {
+                this.setState({ errorMessage: "none"})
+            }
+        })
+        .catch(error => {
+            console.log(error)
+            this.setState({ errorMessage: "fetch error" })
+        })
+    }
     }
 
 
     handleClick() {
-        this.setState({ authMethod: "signup" })
+        this.setState({ 
+            authMethod: this.state.authMethod === "login" ? "signup" : "login",
+            errorMessage: "none"
+         })
     }
 
     render() {
@@ -64,15 +110,20 @@ export default class Auth extends Component {
                             handleChange={this.handleChange}
                             handleSubmit={this.handleLogin}
                             usernameInput={this.state.usernameInput}
-                            passwordInput={this.state.passwordInput} 
+                            passwordInput={this.state.passwordInput}
+                            errorMessage={this.state.errorMessage}
+                            handleClick={this.handleClick} 
                      /> 
                      : <Signup 
                             handleChange={this.handleChange}
                             handleSubmit={this.handleSignup}
                             usernameInput={this.state.usernameInput}
                             passwordInput={this.state.passwordInput}
+                            passwordConfirmInput={this.state.passwordConfirmInput}
+                            errorMessage={this.state.errorMessage}
+                            handleClick={this.handleClick}
                      />}
-                <p onClick={this.handleClick}>Don't have an account? Click here to sign up!</p>
+                
             </div>
         )
     }
