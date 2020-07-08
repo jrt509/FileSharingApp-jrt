@@ -4,7 +4,8 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     align-items: center;
-   
+
+    
 
     .left-column {
         height: 100%;
@@ -22,11 +23,12 @@
         }
 
         button {
-            height: 40%;
-            width: 20%;
+            height: 20%;
+            width: 30%;
 
         }
     }
+    
     .right-column {
         height: 100%;
         width: 100%;
@@ -41,8 +43,9 @@
         }
 
         button {
-            height: 60%;
-            width: 30%;
+            
+            height: 35%;
+            width: 60%;
 
         }
     }
